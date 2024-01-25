@@ -36,14 +36,16 @@ if (navigator.geolocation) {
   }, error => {
     setLocationOff(true);
     console.error(error.message);
-  });
+  },
+  { enableHighAccuracy: true }
+  );
 } else {
   
   console.error('Geolocation is not supported by this browser.');
 }
 
- const userLocation = { latitude, longitude}; 
- const requestLocation = { latitude: 19.8609, longitude: 75.3929 }; 
+ const userLocation = { latitude, longitude };  // 19.875441919332864, 75.3392820182348
+ const requestLocation = { latitude: 19.875441919332864, longitude: 75.3392820182348 }; 
  
  const proximityThreshold = 0.1;               // 100 meters in kilometers
  
@@ -69,7 +71,7 @@ if (navigator.geolocation) {
           <p>Longitude: {longitude}</p>
           </div>
         }
-      {distance <= proximityThreshold ? <div>Within 100 meters</div> : <div>Not within 100 meters</div>}
+      {distance <= proximityThreshold ? <div> Within 100 meters</div> : <div> Not within 100 meters</div>}
       {
         locationOff && <div>Turn on your location</div>
       }
