@@ -1,0 +1,81 @@
+import {  useState } from "react";
+
+const ZonePage = () => {
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [locationOff, setLocationOff] = useState(false);
+
+  // Haversine formula
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371;                                // Radius of the Earth in kilometers
+    const dLat = toRadians(lat2 - lat1);
+    const dLon = toRadians(lon2 - lon1);
+  
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  
+    const distance = R * c;                       // Distance in kilometers
+    return distance;
+  }
+  
+  function toRadians(degrees) {
+    return degrees * (Math.PI / 180);
+  }
+  
+
+// getting location from the user: 
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(position => {
+    setLatitude( position.coords.latitude);
+    setLongitude(position.coords.longitude);
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    setLocationOff(false)
+  }, error => {
+    setLocationOff(true);
+    console.error(error.message);
+  });
+} else {
+  
+  console.error('Geolocation is not supported by this browser.');
+}
+
+ const userLocation = { latitude, longitude}; 
+ const requestLocation = { latitude: 19.8609, longitude: 75.3929 }; 
+ 
+ const proximityThreshold = 0.1;               // 100 meters in kilometers
+ 
+ const distance = calculateDistance(
+   userLocation.latitude,
+   userLocation.longitude,
+   requestLocation.latitude,
+   requestLocation.longitude
+ );
+ 
+ if (distance <= proximityThreshold) {
+   console.log('The user is within 100 meters of the request location.');
+ } else {
+   console.log('The user is not within 100 meters of the request location.');
+ }
+
+  return (
+    <div>
+      {
+        latitude && longitude &&
+          <div>
+          <p>Latitude: {latitude}</p>
+          <p>Longitude: {longitude}</p>
+          </div>
+        }
+      {distance <= proximityThreshold ? <div>Within 100 meters</div> : <div>Not within 100 meters</div>}
+      {
+        locationOff && <div>Turn on your location</div>
+      }
+    </div>
+  )
+}
+
+export default ZonePage
+
