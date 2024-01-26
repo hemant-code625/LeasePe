@@ -1,3 +1,4 @@
+
 /* eslint-disable react/no-unknown-property */
 
 import {  useState } from "react";
@@ -5,10 +6,9 @@ import {  useState } from "react";
 const ZonePage = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  // const [locationOff, setLocationOff] = useState(false);
   const [speed, setSpeed] = useState(null);
   const [accuracy, setAccuracy] = useState(null);
-
+  const [altitude, setAltitude] = useState(null);
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Earth's radius in kilometers
@@ -28,43 +28,24 @@ const ZonePage = () => {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c; // Distance in kilometers
   
-    return (distance/1000) ;     // in meters
+    return (distance) ;     
     }
-  
 
-// getting location from the user: 
-// if (navigator.geolocation) {
-//   navigator.geolocation.getCurrentPosition(position => {
-    // setLatitude( position.coords.latitude);
-    // setLongitude(position.coords.longitude);
-//     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-//     setLocationOff(false)
-//   }, error => {
-//     setLocationOff(true);
-//     console.error(error.message);
-//   },
-//   { enableHighAccuracy: true }
-//   );
-// } else {
-  
-//   console.error('Geolocation is not supported by this browser.');
-// }
-function buttonClickHandler() {
-  // Cancel the updates when the user clicks a button.
-  navigator.geolocation.clearWatch(watchId);
-}
-const watchId = navigator.geolocation.watchPosition(position => {
+
+navigator.geolocation.watchPosition(position => {
     setLatitude(position.coords.latitude);
     setLongitude(position.coords.longitude);
     setSpeed(position.coords.speed);
     setAccuracy( position.coords.accuracy);
+    setAltitude(position.coords.altitude);
+    console.log(position.coords);
 
 });
 
- const userLocation = { latitude, longitude};  // 19.875441919332864, 75.3392820182348
+ const userLocation = { latitude, longitude};  
  const requestLocation = { latitude: 19.875441919332864, longitude: 75.3392820182348 }; 
  
- const proximityThreshold = 0.1;               // 100 meters in kilometers
+ const proximityThreshold = 0.1;      // 100 meters in kilometers
  
  const distance = calculateDistance(
    userLocation.latitude,
@@ -72,38 +53,15 @@ const watchId = navigator.geolocation.watchPosition(position => {
    requestLocation.latitude,
    requestLocation.longitude
  );
- 
- if (distance <= proximityThreshold) {
-   console.log('The user is within 100 meters of the request location.');
- } else {
-   console.log('The user is not within 100 meters of the request location.');
- }
 
   return (
-    // <div>
-    //   {
-    //     latitude && longitude &&
-    //       <div>
-    //       <p>Latitude: {latitude}</p>
-    //       <p>Longitude: {longitude}</p>
-    //       </div>
-    //     }
-    //   {distance <= proximityThreshold ? <div> Within 100 meters</div> : <div> Not within 100 meters</div>}
-    //   {
-    //     locationOff && <div>Turn on your location</div>
-    //   }
-    // </div>
     <>
-    <iframe width={1000} height={500} src={`https://nominatim.openstreetmap.org?q=${latitude},${longitude}&amp;z=15&amp;output=embed`}>
+    <iframe src={`https://nominatim.openstreetmap.org?q=${latitude},${longitude}&amp;z=15&amp;output=embed`}>
     </iframe>
     <div>
-      <button onClick={()=> buttonClickHandler}>
-        Stop watching location
-      </button>
-    </div>
-    <div>
-      <p>Request user: lat:  19.875441919332864, long:75.3392820182348 </p>
-      <p>Speed of current user: {speed}</p>
+      <p>Your coordinates lat: {latitude}, long: {longitude} </p>
+      <p>Your Speed: {speed}</p>
+      <p>Your Altitude: {altitude} </p>
       <p>Accuracy of current user: {accuracy}</p>
         {distance <= proximityThreshold ? <div> Within 100 meters</div> : <div> Not within 100 meters</div>}
     </div>
