@@ -95,8 +95,12 @@ const watchId = navigator.geolocation.watchPosition(position => {
         Stop watching location
       </button>
     </div>
+    <div>
+      <p>Request user: lat:  19.875441919332864, long:75.3392820182348 </p>
+        {distance <= proximityThreshold ? <div> Within 100 meters</div> : <div> Not within 100 meters</div>}
+    </div>
     </>
-  )
+  )  
 }
 
 export default ZonePage;
