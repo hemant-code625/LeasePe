@@ -6,7 +6,6 @@ import {  useState } from "react";
 const ZonePage = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [speed, setSpeed] = useState(null);
   const [accuracy, setAccuracy] = useState(null);
   const [altitude, setAltitude] = useState(null);
 
@@ -35,7 +34,6 @@ const ZonePage = () => {
 navigator.geolocation.watchPosition(position => {
     setLatitude(position.coords.latitude);
     setLongitude(position.coords.longitude);
-    setSpeed(position.coords.speed);
     setAccuracy( position.coords.accuracy);
     setAltitude(position.coords.altitude);
     console.log(position.coords);
@@ -56,11 +54,9 @@ navigator.geolocation.watchPosition(position => {
 
   return (
     <>
-    <iframe src={`https://nominatim.openstreetmap.org?q=${latitude},${longitude}&amp;z=15&amp;output=embed`}>
+    <iframe width={800} height={800} src={`https://nominatim.openstreetmap.org?q=${latitude},${longitude}&amp;z=15&amp;output=embed`}>
     </iframe>
     <div>
-      <p>Your coordinates lat: {latitude}, long: {longitude} </p>
-      <p>Your Speed: {speed}</p>
       <p>Your Altitude: {altitude} </p>
       <p>Accuracy of current user: {accuracy}</p>
         {distance <= proximityThreshold ? <div> Within 100 meters</div> : <div> Not within 100 meters</div>}
