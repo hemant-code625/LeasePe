@@ -61,7 +61,7 @@ const watchId = navigator.geolocation.watchPosition(position => {
 
 });
 
- const userLocation = { latitude: 19.8727854, longitude: 75.3395673 };  // 19.875441919332864, 75.3392820182348
+ const userLocation = { latitude, longitude};  // 19.875441919332864, 75.3392820182348
  const requestLocation = { latitude: 19.875441919332864, longitude: 75.3392820182348 }; 
  
  const proximityThreshold = 0.1;               // 100 meters in kilometers
