@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Link } from 'react-router-dom';
 import {
@@ -25,8 +25,24 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-function Navbar({ children }) {
-
+function Navbar() {
+  const [user, setUser] = useState(null);
+  useEffect(()=>{
+    const getUser = async () => {
+      try {
+        const res = await fetch('http://localhost:8080/zone', {
+          method: 'GET',
+          credentials: 'include',
+        });
+        const data = await res.json();
+        setUser(data.user);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    getUser();
+  },[])
+  
   return (
     <>
       <Disclosure as="nav" className="dark:bg-gray-900">
@@ -53,16 +69,16 @@ function Navbar({ children }) {
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                     alt="Your Company"
                   /> */}
-                   <h3>Logo</h3> 
+                  <a href="/"><h3>Logo</h3>  </a> 
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
+                  <div className="flex space-x-4 cursor-pointer">
                     {navigation.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          item.current ? '  bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium'
                         )}
                         aria-current={item.current ? 'page' : undefined}
@@ -74,13 +90,7 @@ function Navbar({ children }) {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                </button>
+               
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
@@ -90,8 +100,9 @@ function Navbar({ children }) {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
+                        // src={user ? picture : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
+                        src= {user?.picture}
+                        alt="profile"
                       />
                     </Menu.Button>
                   </div>

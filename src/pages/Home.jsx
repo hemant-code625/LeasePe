@@ -1,13 +1,42 @@
 /* eslint-disable react/no-unknown-property */
+import { useEffect, useState } from "react";
 import Footer from "../features/common/Footer";
 import Navbar from "../features/common/Navbar";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  const handleLogin = () => {
+    try {
+        window.location.href = 'http://localhost:8080/auth/google';
+      } catch (error) {
+        console.error('Error during redirect:', error);
+      }
+  }
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch('http://localhost:8080/zone', {
+          method: 'GET',
+          credentials: 'include',
+        });
+        const data = await res.json();
+        setUser(data.user);
+        console.log(data.user)
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    
+  
+    fetchUser();
+    
+  }, []);
   return (
     <>
-      <Navbar />
+      <Navbar user={user}/>
       <div>
         <div className=" flex align-top justify-center h-fit">
           <h1 className="font-bold text-3xl font-mono whitespace-nowrap mt-16">
@@ -22,8 +51,16 @@ function Home() {
             NOTE: We are not responsible for the good and services shared over
             this platform. Use on your own discretion.
           </h3>
+          
         </div>
       </div>
+      {user != null ? (
+            <div className="flex align-middle justify-center my-16">
+              <h1>Welcome {user.name}</h1>
+            </div>
+          ) : (
+            <button onClick={handleLogin}>Login with Google</button>
+          )}
       <div className="flex align-middle my-16 justify-center cursor-pointer ">
         <div className="w-full h-40 flex items-center justify-center cursor-pointer">
           <div className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold shadow text-indigo-600 transition-all duration-150 ease-in-out rounded hover:pl-10 hover:pr-6 bg-gray-50 dark:bg-gray-700 dark:text-white dark:hover:text-gray-200 dark:shadow-none group">
@@ -60,7 +97,10 @@ function Home() {
                 ></path>
               </svg>
             </span>
-            <span className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white dark:group-hover:text-gray-200" onClick={()=> navigate('/zone')}>
+            <span
+              className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white dark:group-hover:text-gray-200"
+              onClick={() => navigate("/zone")}
+            >
               Get started
             </span>
           </div>
