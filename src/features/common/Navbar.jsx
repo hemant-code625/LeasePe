@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Link } from 'react-router-dom';
 import {
   Bars3Icon,
   XMarkIcon,
@@ -30,7 +29,7 @@ function Navbar() {
   useEffect(()=>{
     const getUser = async () => {
       try {
-        const res = await fetch('http://localhost:8080/zone', {
+        const res = await fetch('http://localhost:8080/getUser', {
           method: 'GET',
           credentials: 'include',
         });

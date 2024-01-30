@@ -1,8 +1,9 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
+/* eslint-disable no-unused-vars */
+
 
 import { useState } from "react";
-import Navbar from "../features/common/Navbar";
+
 
 const ZonePage = () => {
   const [latitude, setLatitude] = useState(null);
@@ -59,8 +60,7 @@ const ZonePage = () => {
 
   return (
     <>
-      {/* <iframe width={800} height={800} src={`https://nominatim.openstreetmap.org?q=${latitude},${longitude}&amp;z=15&amp;output=embed`}>
-    </iframe> */}
+      
 
       {/* <Navbar /> */}
 
@@ -125,6 +125,9 @@ const ZonePage = () => {
           </div>
         </div>
       </div>
+      
+      {/* <iframe width={600} height={600} src={`https://nominatim.openstreetmap.org?q=${latitude},${longitude}&amp;z=15&amp;output=embed`}>
+    </iframe> */}
     </>
   );
 };
