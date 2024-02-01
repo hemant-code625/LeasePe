@@ -60,11 +60,9 @@ const ZonePage = () => {
 
   return (
     <>
-      
-
       {/* <Navbar /> */}
-
-      {/* <p>Your Latitude: {latitude} </p>
+      <div className=" absolute ">
+         <p>Your Latitude: {latitude} </p>
         <p>Your Longitude: {longitude} </p>
         <p>Your Accuracy: {accuracy} </p>
         <p>Your Altitude: {altitude} </p>
@@ -72,7 +70,8 @@ const ZonePage = () => {
           <div> Within 100 meters</div>
         ) : (
           <div> Not within 100 meters</div>
-        )} */}
+        )}
+      </div>
 
       <div className="flex flex-col justify-center items-center h-screen">
         <div className="flex bg-white w-fit px-1.25 py-1.25 shadow-box-up rounded-2xl dark:bg-box-dark dark:shadow-box-dark-out">

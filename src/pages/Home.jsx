@@ -10,7 +10,7 @@ function Home() {
 
   const handleLogin = () => {
     try {
-      window.location.href = "http://localhost:8080/auth/google";
+      window.location.href = `${import.meta.env.VITE_REACT_APP_API_HOST}/auth/google`;
     } catch (error) {
       console.error("Error during redirect:", error);
     }
@@ -18,11 +18,12 @@ function Home() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:8080/getUser", {
+        const res = await fetch(`${import.meta.env.VITE_REACT_APP_API_HOST}/getUser`, {
           method: "GET",
           credentials: "include",
         });
         const data = await res.json();
+        console.log(data.user);
         setUser(data.user);
         console.log(data.user)
       } catch (err) {
