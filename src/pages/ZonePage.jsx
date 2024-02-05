@@ -88,7 +88,6 @@ const ZonePage = () => {
         });
         const data = await res.json();
         setUser(data.user);
-        console.log(data.user)
       } catch (err) {
         console.error(err.message);
       }
@@ -167,9 +166,7 @@ const ZonePage = () => {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  clip-rule="evenodd"
                   d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                  fill-rule="evenodd"
                 ></path>
               </svg>
             </a>
@@ -229,7 +226,7 @@ const ZonePage = () => {
                 formData.forEach((value, key) => {
                   data[key] = value;
                 });
-                console.log(data);
+                console.log("Req data ",data);
 
                 // handleSubmit && handleSubmit(data);
               }}

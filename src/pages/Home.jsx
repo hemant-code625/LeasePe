@@ -20,7 +20,7 @@ function Home() {
             Welcome to LeasePe
           </h1>
         </div>
-        <p className="whitespace-nowrap  flex align-middle justify-center">
+        <p className="whitespace no wrap  flex align-middle justify-center">
           A platform to effectively lease out stuff near you{" "}
         </p>
         <div className="flex align-middle justify-center mt-20">
@@ -44,9 +44,7 @@ function Home() {
               >
                 <path
                   d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  stroke-width="2"
-                  stroke-linejoin="round"
-                  stroke-linecap="round"
+                  strokeWidth="2"
                 ></path>
               </svg>
             </span>
@@ -60,9 +58,7 @@ function Home() {
               >
                 <path
                   d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  stroke-width="2"
-                  stroke-linejoin="round"
-                  stroke-linecap="round"
+                  strokeWidth="2"
                 ></path>
               </svg>
             </span>
