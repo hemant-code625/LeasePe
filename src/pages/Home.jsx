@@ -19,7 +19,6 @@ function Home() {
       console.error("Error during redirect:", error);
     }
   };
-
   useEffect(() => {
     const fetchUser = async () => {
       try {
