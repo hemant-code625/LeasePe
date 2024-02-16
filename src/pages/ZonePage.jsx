@@ -8,7 +8,7 @@ const ZonePage = () => {
   const [accuracy, setAccuracy] = useState(null);
   const [altitude, setAltitude] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user, setUser] = useState(null);
+
 
   const {
     register,
@@ -23,14 +23,7 @@ const ZonePage = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleLogin = () => {
-    try {
-      window.location.href = `${import.meta.env.VITE_REACT_APP_API_HOST}/auth/google`;
-    } catch (error) {
-      console.error("Error during redirect:", error);
-    }
-  };
-  
+
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Earth's radius in kilometers
@@ -79,23 +72,6 @@ const ZonePage = () => {
     requestLocation.longitude
   );
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_REACT_APP_API_HOST}/getUser`, {
-          method: "GET",
-          credentials: "include",
-        });
-        const data = await res.json();
-        setUser(data.user);
-      } catch (err) {
-        console.error(err.message);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
   return (
     <>
       {/* <Navbar /> */}
@@ -110,16 +86,7 @@ const ZonePage = () => {
           <div> Not within 100 meters</div>
         )}
       </div>
-      {user ? null : <div id="login">
-      <div className="flex flex-col my-4 justify-centre items-center">
-          <button
-            className="relative py-2 px-8 text-black text-base font-bold nded-full overflow-hidden bg-white rounded-full transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-900 before:to-blue-600 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-full hover:before:left-0"
-            onClick={handleLogin}
-          >
-            Login with Google
-          </button>
-        </div>
-      </div>}
+      
       <div className="flex flex-col justify-center items-center h-screen">
         <div className="flex bg-white w-fit px-1.25 py-1.25 shadow-box-up rounded-2xl dark:bg-box-dark dark:shadow-box-dark-out">
           <div className="dark:shadow-buttons-box-dark rounded-2xl w-full px-1.5 py-1.5 md:px-3 md:py-3">
