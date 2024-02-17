@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import userDefaultImage from '../../assets/user.jpg';
+
+import { useUserContext } from './hooks/useUserContext';
 
 
 const navigation = [
@@ -25,23 +27,11 @@ function classNames(...classes) {
 }
 
 function Navbar() {
-  const [user, setUser] = useState(null);
-  useEffect(()=>{
-    const getUser = async () => {
-      try {
-        const res = await fetch('http://localhost:8080/getUser', {
-          method: 'GET',
-          credentials: 'include',
-        });
-        const data = await res.json();
-        setUser(data.user);
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-    getUser();
-  },[])
+
   
+  const user = useUserContext().user;
+  // const user = userObj.user;
+  console.log("user in navbar: ", user);
   return (
     <>
       <Disclosure as="nav" className="dark:bg-gray-900">
@@ -75,7 +65,7 @@ function Navbar() {
                     {navigation.map((item) => (
                       <a
                         key={item.name}
-                        href={item.href}
+                        href={item.link}
                         className={classNames(
                           item.current ? '  bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium'
@@ -100,7 +90,7 @@ function Navbar() {
                       <img
                         className="h-8 w-8 rounded-full"
                         // src={user ? picture : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
-                        src= {user ? user.picture : userDefaultImage}
+                        src= {user.picture}
                         alt="profile"
                       />
                     </Menu.Button>
