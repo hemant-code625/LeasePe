@@ -30,8 +30,6 @@ function Navbar() {
 
   
   const user = useUserContext().user;
-  // const user = userObj.user;
-  console.log("user in navbar: ", user);
   return (
     <>
       <Disclosure as="nav" className="dark:bg-gray-900">

@@ -7,10 +7,10 @@ const useGetRequest = ({longitude, latitude, proximity}) => {
     useEffect(()=> {
         const getRequests = async () => {
             try {
-                // const res = await fetch(`http://localhost:8080/zone?longitude=${longitude}&latitude=${latitude}&proximity=${proximity}`);
+                const res = await fetch(`${import.meta.env.VITE_REACT_APP_API_HOST}/zone?longitude=${longitude}&latitude=${latitude}&proximity=${proximity}`);
                
                 // sending a hardcoded value for now for testing purposes 
-                const res = await fetch(`http://localhost:8080/zone?longitude=19.8798306&latitude=75.3566968&proximity=100`);
+                // const res = await fetch(`http://localhost:8080/zone?longitude=19.8798306&latitude=75.3566968&proximity=100`);
                 const data = await res.json();
               
                 setRequests(data); 

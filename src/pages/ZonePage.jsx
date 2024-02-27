@@ -37,13 +37,13 @@ const ZonePage = () => {
     const {title, description} = data;
     const req = {
       user,
-      latitude: 75.35684681924843,     // hardcoded for testing purposes
-      longitude: 19.880167741421335,
+      latitude,    
+      longitude, 
       title,
       description,
     };
     
-    const response = await fetch(`http://localhost:8080/zone`, {
+    const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_HOST}/zone`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
