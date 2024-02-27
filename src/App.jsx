@@ -8,12 +8,13 @@ import AboutUsPage from './pages/AboutUsPage.jsx';
 import ZonePage from './pages/ZonePage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
 import { useEffect, useState } from 'react';
-import { UserContext } from './features/common/context.js';
-
+import { UserContext } from './features/context/context.js';
+import { SocketContextProvider } from './features/context/SocketContext.jsx';
+import useGetRequest from './features/common/hooks/useGetRequest.js';
 function App() {
 
   const [user, setUser] = useState(null);
-
+  const requests = useGetRequest({ proximity: 100});       // proximity set to 100 m for now
   const handleLogin = () => {
     try {
       window.location.href = `${
@@ -47,6 +48,7 @@ function App() {
     <>
     {
       user ? <UserContext.Provider value={{user}}> 
+      <SocketContextProvider requests={requests}> 
       <Router>
         <Routes>
           <Route path='/' element={< > <Home /> </> } /> 
@@ -56,7 +58,7 @@ function App() {
           <Route path='*' element={ <PageNotFound/> } />
         </Routes>
       </Router>
-
+      </SocketContextProvider>
       </UserContext.Provider> : 
       <div className='flex flex-row items-center justify-center h-screen'> 
          <div className="flex flex-col my-4 justify-centre items-center">

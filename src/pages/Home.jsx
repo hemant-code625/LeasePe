@@ -7,9 +7,11 @@ import Navbar from "../features/common/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../features/common/hooks/useUserContext";
 
+
 function Home() {
   const navigate = useNavigate();
   const user = useUserContext().user;
+
   return (
     <>
     

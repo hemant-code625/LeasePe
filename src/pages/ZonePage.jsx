@@ -1,13 +1,21 @@
-/* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
+
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useUserContext } from "../features/common/hooks/useUserContext";
+import useGetRequest from "../features/common/hooks/useGetRequest";
+import useListenRequest from "../features/common/hooks/useListenRequest";
+
 const ZonePage = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [accuracy, setAccuracy] = useState(null);
   const [altitude, setAltitude] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const user = useUserContext().user;
+  useListenRequest();
+  const { requests } = useGetRequest({ longitude, latitude, proximity: 100 });
+  
 
 
   const {
@@ -16,37 +24,33 @@ const ZonePage = () => {
     watch,
     formState: { errors },
   } = useForm();
-  if (errors) {
-    console.log("errors", errors);
-  }
+
+  // if (errors) {
+  //   console.log("errors", errors);
+  // }
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const SendRequest = async (data) => {
+    const {title, description} = data;
+    const req = {
+      user,
+      latitude: 75.35684681924843,     // hardcoded for testing purposes
+      longitude: 19.880167741421335,
+      title,
+      description,
+    };
+    
+    const response = await fetch(`http://localhost:8080/zone`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(req),          // uncomment this line to send the request to the server
+    });
 
-
-  function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Earth's radius in kilometers
-
-    // Convert coordinates to radians
-    const lat1Rad = (Math.PI * lat1) / 180;
-    const lon1Rad = (Math.PI * lon1) / 180;
-    const lat2Rad = (Math.PI * lat2) / 180;
-    const lon2Rad = (Math.PI * lon2) / 180;
-
-    // Apply the Haversine formula
-    const dLat = lat2Rad - lat1Rad;
-    const dLon = lon2Rad - lon1Rad;
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1Rad) *
-        Math.cos(lat2Rad) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in kilometers
-
-    return distance;
   }
 
   navigator.geolocation.watchPosition((position) => {
@@ -54,38 +58,20 @@ const ZonePage = () => {
     setLongitude(position.coords.longitude);
     setAccuracy(position.coords.accuracy);
     setAltitude(position.coords.altitude);
-    console.log(position.coords);
   });
-
-  const userLocation = { latitude, longitude };
-  const requestLocation = {
-    latitude: 19.875441919332864,
-    longitude: 75.3392820182348,
-  };
-
-  const proximityThreshold = 0.1; // 100 meters in kilometers
-
-  const distance = calculateDistance(
-    userLocation.latitude,
-    userLocation.longitude,
-    requestLocation.latitude,
-    requestLocation.longitude
-  );
 
   return (
     <>
-      {/* <Navbar /> */}
-      <div className=" absolute ">
-        <p>Your Latitude: {latitude} </p>
-        <p>Your Longitude: {longitude} </p>
-        <p>Your Accuracy: {accuracy} </p>
-        <p>Your Altitude: {altitude} </p>
-        {distance <= proximityThreshold ? (
-          <div> Within 100 meters</div>
-        ) : (
-          <div> Not within 100 meters</div>
-        )}
+      <div className="absolute">
+        <h3>Requests</h3>
+        {requests.map((request) => (
+          <div key={request._id}>
+            <h4>{request.requestTitle}</h4>
+            <p>{request.requestDescription}</p>
+          </div>
+        ))}
       </div>
+      
       
       <div className="flex flex-col justify-center items-center h-screen">
         <div className="flex bg-white w-fit px-1.25 py-1.25 shadow-box-up rounded-2xl dark:bg-box-dark dark:shadow-box-dark-out">
@@ -193,9 +179,7 @@ const ZonePage = () => {
                 formData.forEach((value, key) => {
                   data[key] = value;
                 });
-                console.log("Req data ",data);
-
-                // handleSubmit && handleSubmit(data);
+                SendRequest(data);
               }}
             >
               <div className="grid gap-4 mb-4 grid-cols-2">
@@ -207,7 +191,7 @@ const ZonePage = () => {
                     Title
                   </label>
                   <input
-                    {...register("name", { required: true })}
+                    {...register("title", { required: true })}
                     id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Enter your request here"
@@ -260,3 +244,4 @@ const ZonePage = () => {
 };
 
 export default ZonePage;
+
