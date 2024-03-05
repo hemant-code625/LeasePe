@@ -8,9 +8,11 @@ import AboutUsPage from './pages/AboutUsPage.jsx';
 import ZonePage from './pages/ZonePage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
 import { useEffect, useState } from 'react';
-import { UserContext } from './features/context/context.js';
-import { SocketContextProvider } from './features/context/SocketContext.jsx';
-import useGetRequest from './features/common/hooks/useGetRequest.js';
+import useGetRequest from './hooks/useGetRequest.js';
+import { UserContext } from './context/context.js';
+import { SocketContextProvider } from './context/SocketContext.jsx';
+
+
 function App() {
 
   const [user, setUser] = useState(null);

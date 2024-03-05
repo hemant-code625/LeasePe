@@ -1,4 +1,4 @@
-import { useUserContext } from "./hooks/useUserContext";
+import { useUserContext } from "../hooks/useUserContext.js";
 
 const Profile = () => {
   const userObj = useUserContext();

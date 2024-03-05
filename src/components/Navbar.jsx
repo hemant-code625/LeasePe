@@ -6,9 +6,9 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import userDefaultImage from '../../assets/user.jpg';
+import userDefaultImage from '../assets/user.jpg';
 
-import { useUserContext } from './hooks/useUserContext';
+import { useUserContext } from '../hooks/useUserContext';
 
 
 const navigation = [

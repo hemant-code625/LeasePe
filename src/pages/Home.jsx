@@ -2,10 +2,10 @@
 
 // 1.test api 2.add React Context API  3. add chat 4. notification 5. feedback 6. admin (can see all req and status) 7. error
 
-import Footer from "../features/common/Footer";
-import Navbar from "../features/common/Navbar";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useUserContext } from "../features/common/hooks/useUserContext";
+import { useUserContext } from "../hooks/useUserContext.js"
 
 
 function Home() {
