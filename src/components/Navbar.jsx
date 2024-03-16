@@ -9,6 +9,7 @@ import {
 import userDefaultImage from '../assets/user.jpg';
 
 import { useUserContext } from '../hooks/useUserContext';
+import RequestNav from './requests/RequestNav';
 
 
 const navigation = [
@@ -73,6 +74,7 @@ function Navbar() {
                         {item.name}
                       </a>
                     ))}
+                    <RequestNav user={user}/>
                   </div>
                 </div>
               </div>

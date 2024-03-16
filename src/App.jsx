@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import useGetRequest from './hooks/useGetRequest.js';
 import { UserContext } from './context/context.js';
 import { SocketContextProvider } from './context/SocketContext.jsx';
+import ChatPage from './pages/ChatPage.jsx';
 
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
           <Route path='/about-us' element={< > <AboutUsPage/> </> } /> 
           <Route path='/zone' element={< > <ZonePage/> </> } /> 
           <Route path='/profile' element={< > <ProfilePage /> </> } /> 
+          <Route path='/chat' element={< > <ChatPage/> </> } /> 
           <Route path='*' element={ <PageNotFound/> } />
         </Routes>
       </Router>
