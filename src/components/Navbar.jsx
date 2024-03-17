@@ -158,6 +158,8 @@ function Navbar() {
                   {item.name}
                 </Disclosure.Button>
               ))}
+
+              <RequestNav user={user}/>
             </div>
           </Disclosure.Panel>
         </>

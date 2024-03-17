@@ -1,9 +1,13 @@
-import Chat from "../components/chat/Chat";
+
+import MessageContainer from "../components/chat/MessageContainer"
+import Sidebar from "../components/chat/sidebar/Sidebar"
+
 
 const ChatPage = () => {
   return (
     <>
-      <Chat/>
+      <Sidebar />
+      <MessageContainer/>
     </>
   )
 }
