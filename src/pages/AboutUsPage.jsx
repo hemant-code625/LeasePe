@@ -1,7 +1,7 @@
 const AboutUsPage = () => {
     return (
         <div>
-            This is a college project made by a group of students from MGM&apos;s JNEC College.
+            You are in about page
         </div>
     )
 }

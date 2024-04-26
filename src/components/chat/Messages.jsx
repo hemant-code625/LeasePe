@@ -4,7 +4,7 @@ import { useUserContext } from "../../hooks/useUserContext";
 import { extractTime } from "../../utils/extractTime.js";
 import useConversation from "../../zustand/useConversation";
 
-const Message = ({ message }) => {
+const Messages = ({ message }) => {
 	const authUser = useUserContext().user;
 	const { selectedConversation } = useConversation();
 	const fromMe = message.senderId === authUser._id;
@@ -27,4 +27,4 @@ const Message = ({ message }) => {
 		</div>
 	);
 };
-export default Message;
+export default Messages;

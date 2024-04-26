@@ -6,8 +6,3 @@ export const getChatRoomId = (userId1, userId2) => {
   };
   
  
-  export const createChatRoom = (userId1, userId2) => {
-    const chatRoomId = getChatRoomId(userId1, userId2);
-    
-    return chatRoomId;
-  };

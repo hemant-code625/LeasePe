@@ -5,7 +5,7 @@ import { useUserContext } from "../hooks/useUserContext.js";
 import { useSocketContext } from "../context/SocketContext";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
-import { createChatRoom, getChatRoomId } from "../utils/chatRoom.js";
+import {  getChatRoomId } from "../utils/chatRoom.js";
 import { extractDate, extractTime } from "../utils/extractTime.js";
 
 const ZonePage = () => {
@@ -18,9 +18,6 @@ const ZonePage = () => {
   const user = useUserContext().user;
   const socket = useSocketContext().socket;
   const proximity = 100; // hardcoded value for now
-  
-  console.log("loggedIn",user._id);
-
   // getRequest from the server
   useEffect(() => {
     const getRequests = async () => {
@@ -34,7 +31,6 @@ const ZonePage = () => {
         const data = await res.json();
 
         setRequests(data);
-        console.log(data);
       } catch (error) {
         console.log("Error in useGetRequest", error);
       }
@@ -59,17 +55,13 @@ const ZonePage = () => {
   }, [socket]);
 
   const handleAcceptRequest = (acceptedRequest) => {
-
-    const otherUserId = acceptedRequest.user.id;
-    const chatRoomId = getChatRoomId(user._id, otherUserId); 
-
-    if (chatRoomId) {
-      navigate(`/chat?${chatRoomId}`);
-    } else {
-      
-      const newChatRoomId = createChatRoom(user.id, otherUserId);
-      navigate(`/chat?${newChatRoomId}`);
-    }
+      // send friendId to the server
+      // save it in the database
+      // remove the request from the list
+      // join them in a chat room
+    const friend = {name :acceptedRequest.user.name,id: acceptedRequest.user.id, picture: acceptedRequest.user.picture};
+    navigate(`/chat?with=${JSON.stringify(friend)}`);
+    
   };
 
   navigator.geolocation.watchPosition((position) => {
